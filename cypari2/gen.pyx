@@ -2192,8 +2192,8 @@ cdef class Gen(Gen_base):
            Baillie-Pomerance-Selfridge-Wagstaff pseudo prime (strong
            Rabin-Miller pseudo prime for base 2, followed by strong Lucas test
            for the sequence `(P, 1)`, where `P \geq 3` smallest positive 
-           integer such that `P^2 - 4` is not a square mod x). 
-           If ``flag > 0``, checks whether x is a strong Miller-Rabin pseudo 
+           integer such that `P^2 - 4` is not a square mod ``x``). 
+           If ``flag > 0``, checks whether ``x`` is a strong Miller-Rabin pseudo 
            prime for ``flag`` randomly chosen bases (with end-matching to catch 
            square roots of -1).
 
@@ -2201,8 +2201,8 @@ cdef class Gen(Gen_base):
         OUTPUT:
 
 
-        -  ``bool`` - Returns True if x is a pseudo-prime number, and False 
-           otherwise.
+        -  ``bool`` - Returns ``True`` if ``x`` is a pseudo-prime number, 
+           and ``False`` otherwise.
 
 
         Examples:
