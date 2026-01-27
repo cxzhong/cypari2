@@ -94,26 +94,30 @@ pari_version = cc.run(
 )
 message('PARI Version: ' + pari_version.stdout())
 
-pari_datadir_code = '''
-#include <stdio.h>
-#include <pari/pari.h>
-int main(void) {
-  pari_init(1000000, 2);
-  pari_printf("%s", pari_datadir);
-  pari_close();
-  return 0;
-}
-'''
-pari_datadir = cc.run(
-  pari_datadir_code,
-  name: 'pari datadir',
-  dependencies: [pari],
-  required: true,
-).stdout()
+pari_datadir = get_option('pari_datadir')
+if pari_datadir == ''
+  pari_datadir_code = '''
+  #include <stdio.h>
+  #include <pari/pari.h>
+  int main(void) {
+    pari_init(1000000, 2);
+    pari_printf("%s", pari_datadir);
+    pari_close();
+    return 0;
+  }
+  '''
+  pari_datadir = cc.run(
+    pari_datadir_code,
+    name: 'pari datadir',
+    dependencies: [pari],
+    required: true,
+  ).stdout()
+endif
+message('PARI data dir: ' + pari_datadir)
 
 # In MSYS, convert to Windows path
 # (e.g /usr/share/pari -> C:\msys64\usr\share\pari)
-if host_machine.system() == 'windows'
+if host_machine.system() == 'windows' and pari_datadir.startswith('/')
   pari_datadir = run_command(
     'cygpath', '-am', pari_datadir,
     check: true,
