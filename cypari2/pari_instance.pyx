@@ -1265,6 +1265,8 @@ cdef class Pari(Pari_auto):
             if len(entries) != m * n:
                 raise IndexError("len of entries (=%s) must be %s*%s=%s" % (len(entries), m, n, m*n))
             k = 0
+            # Ensure the matrix is on the heap before assigning cloned entries
+            A.fixGEN()
             for i in range(m):
                 for j in range(n):
                     sig_check()
