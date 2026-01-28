@@ -2033,21 +2033,21 @@ cdef class Gen(Gen_base):
         clear_stack()
         return complex(re, im)
 
-    def __nonzero__(self):
+    def __bool__(self):
         """
         Examples:
 
         >>> from cypari2 import Pari
         >>> pari = Pari()
 
-        >>> pari('1').__nonzero__()
+        >>> pari('1').__bool__()
         True
-        >>> pari('x').__nonzero__()
+        >>> pari('x').__bool__()
         True
         >>> bool(pari(0))
         False
         >>> a = pari('Mod(0,3)')
-        >>> a.__nonzero__()
+        >>> a.__bool__()
         False
         """
         return not gequal0(self.g)
