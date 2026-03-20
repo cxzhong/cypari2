@@ -1257,7 +1257,7 @@ cdef class Pari(Pari_auto):
         [0, 1, 2; 3, 4, 5; 6, 7, 8]
         """
         cdef long i, j, k
-        cdef Gen x
+        cdef Gen A, x
 
         sig_on()
         A = new_gen(zeromatcopy(m, n))
