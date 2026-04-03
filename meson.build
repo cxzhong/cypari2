@@ -72,27 +72,29 @@ pari = cc.find_library(
 pari = declare_dependency(include_directories: pari_header_include_dirs,
   dependencies: [pari, gmp])
 
-# Get PARI version (mostly as smoke test)
-pari_version_code = '''
-#include <stdio.h>
-#include <pari/pari.h>
-int main(void) {
-  pari_init(1000000, 2);
-  GEN v = pari_version();
-  const char *version = GENtostr(pari_version());
-  pari_printf("%s",version);
-  pari_close();
-  return 0;
-}
-'''
-pari_version = cc.run(
-  pari_version_code,
-  args: ['-v'],
-  name: 'pari version',
-  dependencies: [pari],
-  required: true,
-)
-message('PARI Version: ' + pari_version.stdout())
+if meson.can_run_host_binaries()
+  # Get PARI version (mostly as smoke test)
+  pari_version_code = '''
+  #include <stdio.h>
+  #include <pari/pari.h>
+  int main(void) {
+    pari_init(1000000, 2);
+    GEN v = pari_version();
+    const char *version = GENtostr(pari_version());
+    pari_printf("%s",version);
+    pari_close();
+    return 0;
+  }
+  '''
+  pari_version = cc.run(
+    pari_version_code,
+    args: ['-v'],
+    name: 'pari version',
+    dependencies: [pari],
+    required: true,
+  )
+  message('PARI Version: ' + pari_version.stdout())
+endif
 
 pari_datadir = get_option('pari_datadir')
 if pari_datadir == ''
