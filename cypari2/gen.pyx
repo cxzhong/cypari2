@@ -1532,6 +1532,9 @@ cdef class Gen(Gen_base):
                 raise IndexError("column j(=%s) must be between 0 and %s" % (j, self.ncols()-1))
 
             self.cache((i, j), x)
+            # Ensure self is on the heap before assigning a cloned reference
+            if not is_universal_constant(x.g):
+                self.fixGEN()
             xt = x.ref_target()
             set_gcoeff(self.g, i+1, j+1, xt)
             return
@@ -1556,6 +1559,9 @@ cdef class Gen(Gen_base):
             raise IndexError("index (%s) must be between 0 and %s" % (i, glength(self.g)-1))
 
         self.cache(i, x)
+        # Ensure self is on the heap before assigning a cloned reference
+        if not is_universal_constant(x.g):
+            self.fixGEN()
         xt = x.ref_target()
         if typ(self.g) == t_LIST:
             listput(self.g, xt, i+1)
@@ -2027,21 +2033,21 @@ cdef class Gen(Gen_base):
         clear_stack()
         return complex(re, im)
 
-    def __nonzero__(self):
+    def __bool__(self):
         """
         Examples:
 
         >>> from cypari2 import Pari
         >>> pari = Pari()
 
-        >>> pari('1').__nonzero__()
+        >>> pari('1').__bool__()
         True
-        >>> pari('x').__nonzero__()
+        >>> pari('x').__bool__()
         True
         >>> bool(pari(0))
         False
         >>> a = pari('Mod(0,3)')
-        >>> a.__nonzero__()
+        >>> a.__bool__()
         False
         """
         return not gequal0(self.g)
