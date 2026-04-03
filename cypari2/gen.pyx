@@ -2180,26 +2180,29 @@ cdef class Gen(Gen_base):
 
     def ispseudoprime(self, long flag=0):
         """
-        ispseudoprime(x, flag=0): Returns True if x is a pseudo-prime
-        number, and False otherwise.
+        Returns ``True`` if ``x`` is a strong pseudo prime number, and 
+        ``False`` if it is not prime.
 
         INPUT:
 
 
-        -  ``flag`` - int 0 (default): checks whether x is a
+        -  ``flag`` - an ``int``. 
+           If ``flag`` is ``0``, checks whether ``x`` has no small prime 
+           divisors (up to 101 included) and is a 
            Baillie-Pomerance-Selfridge-Wagstaff pseudo prime (strong
            Rabin-Miller pseudo prime for base 2, followed by strong Lucas test
-           for the sequence (P,-1), P smallest positive integer such that
-           `P^2 - 4` is not a square mod x). 0: checks whether x is a
-           strong Miller-Rabin pseudo prime for flag randomly chosen bases
-           (with end-matching to catch square roots of -1).
+           for the sequence `(P, 1)`, where `P \geq 3` smallest positive 
+           integer such that `P^2 - 4` is not a square mod ``x``). 
+           If ``flag > 0``, checks whether ``x`` is a strong Miller-Rabin pseudo 
+           prime for ``flag`` randomly chosen bases (with end-matching to catch 
+           square roots of -1).
 
 
         OUTPUT:
 
 
-        -  ``bool`` - True or False, or when flag=1, either False or a tuple
-           (True, cert) where ``cert`` is a primality certificate.
+        -  ``bool`` - Returns ``True`` if ``x`` is a pseudo-prime number, 
+           and ``False`` otherwise.
 
 
         Examples:
