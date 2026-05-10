@@ -75,7 +75,6 @@ pari = declare_dependency(include_directories: pari_header_include_dirs,
 if meson.can_run_host_binaries()
   # Get PARI version (mostly as smoke test)
   pari_version_code = '''
-  #include <stdio.h>
   #include <pari/pari.h>
   int main(void) {
     pari_init(1000000, 2);
@@ -99,7 +98,6 @@ endif
 pari_datadir = get_option('pari_datadir')
 if pari_datadir == ''
   pari_datadir_code = '''
-  #include <stdio.h>
   #include <pari/pari.h>
   int main(void) {
     pari_init(1000000, 2);
